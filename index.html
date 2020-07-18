@@ -53,7 +53,7 @@ function go(){
     <div id="chart"></div>
     <script>
         function getData() {
-            return window.DeviceMotionEvent.accelerationIncludingGravity.x ;
+            return Math.random() ;
         }  
         Plotly.plot('chart',[{
             y:[getData()],
