@@ -54,8 +54,8 @@ function go(){
     <script>
         function getData() {
             window.addEventListener('devicemotion', event => {
-            return (event.accelerationIncludingGravity.x );
-             }); ;
+            return (event.accelerationIncludingGravity.x.value );
+             });
         }  
         Plotly.plot('chart',[{
             y:[getData()],
