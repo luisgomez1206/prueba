@@ -9,19 +9,21 @@
     <div class="wrapper">
         <div id="chart"></div>
         <script>
-            var layout ={title: "Acelerometria en X"}
-            function getData() {
-                return motion ;
-            }  
+    function handleMotion(event) {
+            var data = event.acceleration.x;
+             
+
+            var layout ={title: "Acelerometria en X"};
+            
             Plotly.newPlot('chart',[{
-                y:[getData()],
+                y:[data],
                 type:'line', line: {color: "red"},
     
             }],layout);
             
             var cnt = 0;
             setInterval(function(){
-                Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
+                Plotly.extendTraces('chart',{ y:[[data]]}, [0]);
                 cnt++;
                 if(cnt > 500) {
                     Plotly.relayout('chart',{
@@ -32,16 +34,13 @@
                 }
             },15);
 
-
-            function handleMotion(event) {
-            var motion = event.acceleration.x,
-             
-         }
+    }
+           
          
          
         
-         window.addEventListener("devicemotion", handleMotion, true);
-        </script>
+    window.addEventListener("devicemotion", handleMotion, true);
+    </script>
 
 
     </div>
