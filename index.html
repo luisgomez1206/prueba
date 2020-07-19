@@ -1,82 +1,49 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8"/>
-<title>Sensors</title>
-<script type="text/javascript">
-function motion(event){
-  document.getElementById("accelerometer").innerHTML = "Accelerometer: "
-    + event.accelerationIncludingGravity.x + ", "
-    + event.accelerationIncludingGravity.y + ", "
-    + event.accelerationIncludingGravity.z;
-}
-
-function orientation(event){
-  document.getElementById("magnetometer").innerHTML = "Magnetometer: "
-    + event.alpha + ", "
-    + event.beta + ", "
-    + event.gamma;
-}
-
-function go(){
-  if(window.DeviceMotionEvent){
-    window.addEventListener("devicemotion", motion, false);
-  }else{
-    var status = document.getElementById("status");
-    status.innerHTML = status.innerHTML.replace(
-      "is supported", "is not supported"
-    );
-  }
-  if(window.DeviceOrientationEvent){
-    window.addEventListener("deviceorientation", orientation, false);
-  }else{
-    var status = document.getElementById("status");
-    status.innerHTML = status.innerHTML.replace(
-      "is supported", "is not supported"
-    );
-  }
-}
-</script>
-<script src="plotly.min.js"></script>
-<link rel="stylesheet" type="text/css" href="styles.css">
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="plotly.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+    <div class="navbar"><span>Real-Time Chart with Plotly.js</span></div>
+    <div class="wrapper">
+        <div id="chart"></div>
+        <script>
+            var layout ={title: "Acelerometria en X"}
+            function getData() {
+                return motion ;
+            }  
+            Plotly.newPlot('chart',[{
+                y:[getData()],
+                type:'line', line: {color: "red"},
+    
+            }],layout);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
 
 
-
-</head>
-<body onload="go();">
-<div id="status"><a href=\"http://www.w3.org/TR/orientation-event/">http://www.w3.org/TR/orientation-event/</a> is supported.</div>
-<br/><br/>
-<div id="accelerometer"></div>
-<br/><br/>
-<div id="magnetometer"></div><div class="navbar"><span>Real-Time Chart with Plotly.js</span></div>
-<div class="wrapper">
-    <div id="chart"></div>
-    <script>
-        function getData() {
-            window.addEventListener('devicemotion', event => {
-            return (event.accelerationIncludingGravity.x.value );
-             });
-        }  
-        Plotly.plot('chart',[{
-            y:[getData()],
-            type:'line'
-        }]);
+            function handleMotion(event) {
+            var motion = event.acceleration.x,
+             
+         }
+         
+         
         
-        var cnt = 0;
-        setInterval(function(){
-            Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
-            cnt++;
-            if(cnt > 500) {
-                Plotly.relayout('chart',{
-                    xaxis: {
-                        range: [cnt-500,cnt]
-                    }
-                });
-            }
-        },15);
-    </script>
-</div>
+         window.addEventListener("devicemotion", handleMotion, true);
+        </script>
 
 
-</body>
+    </div>
+    </body>
 </html>
