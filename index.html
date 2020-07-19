@@ -10,11 +10,10 @@
         <div id="chart"></div>
         <script>
     function handleMotion(event) {
-            var datax = event.accelerationIncludingGravity.x;
-            var datay = event.accelerationIncludingGravity.y;
-            var dataz = event.accelerationIncludingGravity.z;
+            var data = event.acceleration.x;
+           
              
-            var data = [datax,datay,dataz]
+           
             var layout ={title: "Acelerometria en X"};
             
             Plotly.newPlot('chart',[{
@@ -48,4 +47,3 @@
     </div>
     </body>
 </html>
-
