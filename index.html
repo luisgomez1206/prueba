@@ -1,4 +1,4 @@
-<html lang="en">
+<html>
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +82,7 @@
          post_to_relay({'orientation':orientation})
          
          }
-         function handleMotion(event) {
+         setInterval(function handleMotion(event) {
          var motion = {
              'acceleration_x':event.acceleration.x,
              'acceleration_y':event.acceleration.y,
@@ -93,8 +93,8 @@
          }
          console.log(motion)
          post_to_relay({'motion':motion})
-         }
-     
+         },500)
+        
          function handleClick(event) {//Agregada por Victor
          //document.body.style.backgroundColor = "red"
          alert({'click':clicks});
