@@ -109,7 +109,7 @@
          post_to_relay({'motion':motion})
          incrementEventCount();
          }
-         setInterval(handleMotion(),500)
+         setInterval(handleMotion(),500);
          function incrementEventCount(){//CONTADOR DE DATOS
          let counterElement = document.getElementById("num-observed-events")
          let eventCount = parseInt(counterElement.innerHTML)
