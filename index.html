@@ -7,6 +7,11 @@
         #chart1 {width: 50%;}
         #chart2 {width: 50%;}
         #chart3 {width:50%;}
+        #chart4 {width:50%;}
+        #chart5 {width: 50%;}
+        #chart6 {width: 50%;}
+        #chart7 {width:50%;}
+        #chart8 {width:50%;}
     </style>
     </head>
     <body>
@@ -16,7 +21,11 @@
         <div id="chart2"></div>
          <div id="chart3"></div>
          <div id="chart4"></div>
-        <script>
+         <div id="chart5"></div>
+         <div id="chart6"></div>
+         <div id="chart7"></div>
+         <div id="chart8"></div>         
+    <script>
     function handleMotion(event) {
             var data1 = event.acceleration.x; 
             var data2 = event.acceleration.y; 
@@ -104,7 +113,7 @@
                 y:[data3],
                 type:'line', line: {color: "green"}}
     
-                ],layout1);
+                ],layout4);
             
             var cnt = 0;
             setInterval(function(){
@@ -120,9 +129,106 @@
             },15);
     }        
     
+    
+    function handleOrientation(event) {
+            var data1 = event.alpha; 
+            var data2 = event.beta; 
+            var data3 = event.gamma;
+           
+             
+           
+            var layout1 ={title: "Orientacion en X"};
+            var layout2 ={title: "Orientacion en Y"};
+            var layout3 ={title: "Orientacion en Z"};
+            var layout4 ={title: "Orientacion"};
 
+            Plotly.newPlot('chart5',[{
+                y:[data1],
+                type:'line', line: {color: "red"},
+    
+            }],layout1);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart5',{ y:[[data1]]}, [0]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart5',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
+
+            
+    
+        Plotly.newPlot('chart6',[{
+                y:[data2],
+                type:'line', line: {color: "blue"},
+
+            }],layout2);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart6',{ y:[[data2]]}, [0]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart6',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
+
+            Plotly.newPlot('chart7',[{
+                y:[data3],
+                type:'line', line: {color: "green"},
+    
+            }],layout3);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart7',{ y:[[data3]]}, [0]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart7',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
+
+            Plotly.newPlot('chart8',[{
+                y:[data1],
+                type:'line', line: {color: "red"}},
+    
+                {
+                y:[data2],
+                type:'line', line: {color: "blue"}},
+                {
+                y:[data3],
+                type:'line', line: {color: "green"}}
+    
+                ],layout4);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart8',{ y:[[data1],[data2],[data3]]}, [0,1,2]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart8',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
+    }        
          
-        
+    window.addEventListener("deviceorientation", handleOrientation, true);    
     window.addEventListener("devicemotion", handleMotion, true);
     </script>
 
