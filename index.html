@@ -1,238 +1,75 @@
 <html>
     <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="plotly.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <style>
-        #chart1 {width: 50%;}
-        #chart2 {width: 50%;}
-        #chart3 {width:50%;}
-        #chart4 {width:50%;}
-        #chart5 {width: 50%;}
-        #chart6 {width: 50%;}
-        #chart7 {width:50%;}
-        #chart8 {width:50%;}
-    </style>
+        <meta charset="utf-8">
+        <link href="/static/build/styles/samples.37902ba3b7fe.css" rel="stylesheet" type="text/css" />
+        
+        <style type="text/css">
+            .garden {
+  position: relative;
+  width : 200px;
+  height: 200px;
+  border: 5px solid #CCC;
+  border-radius: 10px;
+}
+
+.ball {
+  position: absolute;
+  top   : 90px;
+  left  : 90px;
+  width : 20px;
+  height: 20px;
+  background: green;
+  border-radius: 100%;
+}
+
+        </style>
+        
+        <title>Detecting device orientation - Orientation_example - code sample</title>
     </head>
     <body>
-    <div class="navbar"><span>Real-Time Chart with Plotly.js</span></div>
-    <div class="wrapper">
-        <div id="chart1"></div>
-        <div id="chart2"></div>
-         <div id="chart3"></div>
-         <div id="chart4"></div>
-         <div id="chart5"></div>
-         <div id="chart6"></div>
-         <div id="chart7"></div>
-         <div id="chart8"></div>         
-    <script>
-    function handleMotion(event) {
-            var data1 = event.acceleration.x; 
-            var data2 = event.acceleration.y; 
-            var data3 = event.acceleration.z;
-           
-             
-           
-            var layout1 ={title: "Acelerometria en X"};
-            var layout2 ={title: "Acelerometria en Y"};
-            var layout3 ={title: "Acelerometria en Z"};
-            var layout4 ={title: "Acelerometria"};
+        
+            <div class="garden">
+  <div class="ball"></div>
+</div>
 
-            
-           
-            
-           
-    
-            Plotly.newPlot('chart1',[{
-                y:[data1],
-                type:'line', line: {color: "red"},
-    
-            }],layout1);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart1',{ y:[[data1]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart1',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+<pre class="output"></pre>
 
-            
-    
-        Plotly.newPlot('chart2',[{
-                y:[data2],
-                type:'line', line: {color: "blue"},
+        
+        
+            <script>
+                var ball   = document.querySelector('.ball');
+var garden = document.querySelector('.garden');
+var output = document.querySelector('.output');
 
-            }],layout2);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart2',{ y:[[data2]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart2',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+var maxX = garden.clientWidth  - ball.clientWidth;
+var maxY = garden.clientHeight - ball.clientHeight;
 
-            Plotly.newPlot('chart3',[{
-                y:[data3],
-                type:'line', line: {color: "green"},
-    
-            }],layout3);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart3',{ y:[[data3]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart3',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+function handleOrientation(event) {
+  var x = event.alpha;  // In degree in the range [-180,180]
+  var y = event.gamma; // In degree in the range [-90,90]
 
-            Plotly.newPlot('chart4',[{
-                y:[data1],
-                type:'line', line: {color: "red"}},
-    
-                {
-                y:[data2],
-                type:'line', line: {color: "blue"}},
-                {
-                y:[data3],
-                type:'line', line: {color: "green"}}
-    
-                ],layout4);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart4',{ y:[[data1],[data2],[data3]]}, [0,1,2]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart4',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
-    }        
-    
-    
-    function handleOrientation(event) {
-            var data1 = event.alpha; 
-            var data2 = event.beta; 
-            var data3 = event.gamma;
-           
-             
-           
-            var layout1 ={title: "Orientacion en X"};
-            var layout2 ={title: "Orientacion en Y"};
-            var layout3 ={title: "Orientacion en Z"};
-            var layout4 ={title: "Orientacion"};
+  output.innerHTML  = "beta : " + x + "\n";
+  output.innerHTML += "gamma: " + y + "\n";
 
-            Plotly.newPlot('chart5',[{
-                y:[data1],
-                type:'line', line: {color: "red"},
-    
-            }],layout1);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart5',{ y:[[data1]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart5',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+  // Because we don't want to have the device upside down
+  // We constrain the x value to the range [-90,90]
+  if (x >  90) { x =  90};
+  if (x < -90) { x = -90};
 
-            
-    
-        Plotly.newPlot('chart6',[{
-                y:[data2],
-                type:'line', line: {color: "blue"},
+  // To make computation easier we shift the range of 
+  // x and y to [0,180]
+  x += 90;
+  y += 90;
 
-            }],layout2);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart6',{ y:[[data2]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart6',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+  // 10 is half the size of the ball
+  // It center the positioning point to the center of the ball
+  ball.style.top  = (maxY*y/180 - 10) + "px";
+  ball.style.left = (maxX*x/180 - 10) + "px";
+}
 
-            Plotly.newPlot('chart7',[{
-                y:[data3],
-                type:'line', line: {color: "green"},
-    
-            }],layout3);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart7',{ y:[[data3]]}, [0]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart7',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
+window.addEventListener('deviceorientation', handleOrientation);
 
-            Plotly.newPlot('chart8',[{
-                y:[data1],
-                type:'line', line: {color: "red"}},
-    
-                {
-                y:[data2],
-                type:'line', line: {color: "blue"}},
-                {
-                y:[data3],
-                type:'line', line: {color: "green"}}
-    
-                ],layout4);
-            
-            var cnt = 0;
-            setInterval(function(){
-                Plotly.extendTraces('chart8',{ y:[[data1],[data2],[data3]]}, [0,1,2]);
-                cnt++;
-                if(cnt > 500) {
-                    Plotly.relayout('chart8',{
-                        xaxis: {
-                            range: [cnt-500,cnt]
-                        }
-                    });
-                }
-            },15);
-    }        
-         
-    window.addEventListener("deviceorientation", handleOrientation, true);    
-    window.addEventListener("devicemotion", handleMotion, true);
-    </script>
-
-
-    </div>
+            </script>
+        
     </body>
 </html>
