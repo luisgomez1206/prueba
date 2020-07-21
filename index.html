@@ -15,6 +15,7 @@
         <div id="chart1"></div>
         <div id="chart2"></div>
          <div id="chart3"></div>
+         <div id="chart4"></div>
         <script>
     function handleMotion(event) {
             var data1 = event.acceleration.x; 
@@ -26,6 +27,7 @@
             var layout1 ={title: "Acelerometria en X"};
             var layout2 ={title: "Acelerometria en Y"};
             var layout3 ={title: "Acelerometria en Z"};
+            var layout4 ={title: "Acelerometria"};
 
             
            
@@ -54,7 +56,7 @@
             
     
         Plotly.newPlot('chart2',[{
-                y:[data3],
+                y:[data2],
                 type:'line', line: {color: "blue"},
 
             }],layout2);
@@ -73,7 +75,7 @@
             },15);
 
             Plotly.newPlot('chart3',[{
-                y:[data1],
+                y:[data3],
                 type:'line', line: {color: "green"},
     
             }],layout3);
@@ -91,6 +93,31 @@
                 }
             },15);
 
+            Plotly.newPlot('chart4',[{
+                y:[data1],
+                type:'line', line: {color: "red"}},
+    
+                {
+                y:[data2],
+                type:'line', line: {color: "blue"}},
+                {
+                y:[data3],
+                type:'line', line: {color: "green"}}
+    
+                ],layout1);
+            
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart4',{ y:[[data1],[data2],[data3]]}, [0,1,2]);
+                cnt++;
+                if(cnt > 500) {
+                    Plotly.relayout('chart4',{
+                        xaxis: {
+                            range: [cnt-500,cnt]
+                        }
+                    });
+                }
+            },15);
     }        
     
 
