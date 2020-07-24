@@ -149,6 +149,7 @@
              socket.on( socket_name, function( response ) {
          
                  console.log( `Received [${socket_name}]`, response );
+                 console.log(response);
          
                 //  orientation.html( JSON.stringify(response.orientation, null, '\t') );
                 //  motion.html( JSON.stringify(response.motion, null, '\t') );
@@ -189,7 +190,7 @@
                         data_orientation.datasets[2].data.shift()
                     }
                     chart_orientation.update()
-                    consolelog(data.orientation)
+                    consolelog(data.orientation.dataset[1])
                 }
                 
              }); 
